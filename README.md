@@ -1,2 +1,2 @@
-# Bitz
+# Bits
 Humanoid Discord bot with too much power and a bit of an attitude...
