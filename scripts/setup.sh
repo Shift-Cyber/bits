@@ -23,7 +23,7 @@ printf ${RESET}
 if [ "$CONT" = "y" ]; then
     sudo apt update
     sudo apt install python3-pip
-    pip3 install -r ./requirements.txt
+    pip3 install -r ../requirements.txt
 fi
 
 #Setup service account
@@ -66,7 +66,7 @@ printf "\n"${BLUE_BOLD}
 read -p "Install to /opt/bits? [Y/n] " CONT
 printf ${RESET}
 if [ "$CONT" = "y" ]; then
-    SCRIPT_DIR="$(realpath $0 | awk 'BEGIN{FS=OFS="/"} NF--')"
+    SCRIPT_DIR="$(realpath $0 | awk 'BEGIN{FS=OFS="/"} NF--' | awk 'BEGIN{FS=OFS="/"} NF--')"
     set -x #trace to stdout
     sudo mkdir -p /opt/bits
     sudo cp -r $SCRIPT_DIR/* /opt/bits
