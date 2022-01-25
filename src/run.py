@@ -20,9 +20,9 @@ def main():
 
 
 
-    logger.info(f"config: {config_file_abspath}, logger: {log_file_abspath}")
+    
 
-    print('running')
+    logger.info(f"Initialized daemon with config from '{config_file_abspath},' logging to '{log_file_abspath}'")
     while True:
         pass
 
