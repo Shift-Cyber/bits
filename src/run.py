@@ -1,7 +1,31 @@
-#should initialize like ./run --log /var/log/bits.log --config /etc/bits/config.yaml
+# Entrypoint for all bot code
+# should be run like:
+#    ./run --log /var/log/bits/bits.log --config /etc/bits/config.yaml
+import os
 
-print('running')
+from stubs.parse_args import parse_args
+from stubs.logging import bits_logger
+from stubs.configure import Configuration
 
-while True:
-    pass
+def main():
+    #Save command line arguments for instantiation
+    config_file_abspath, log_file_abspath = parse_args()
 
+    #Build logger from provided path
+    logger = bits_logger(log_file_abspath)
+
+    #Initialize configuration handler
+    config = Configuration(logger, config_file_abspath)
+
+
+
+
+    logger.info(f"config: {config_file_abspath}, logger: {log_file_abspath}")
+
+    print('running')
+    while True:
+        pass
+
+
+if __name__ == '__main__':
+    main()

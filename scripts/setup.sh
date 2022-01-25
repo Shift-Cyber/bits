@@ -57,7 +57,7 @@ if [ "$CONT" = "y" ]; then
     set -x #trace to stdout
     sudo mkdir -p /var/log/bits
     sudo chown bits:bits -R /var/log/bits
-    sudo chmod -R 600 /var/log/bits
+    sudo chmod -R 700 /var/log/bits
     set +x #reset tracing
 fi
 
@@ -86,7 +86,9 @@ After=multi-user.target
 [Service]
 Type=simple
 Restart=always
-ExecStart=/usr/bin/python3 /opt/bits/src/run.py --log /var/log/bits.log --config /etc/bits/config.yaml
+User=bits
+Group=bits
+ExecStart=/usr/bin/python3 /opt/bits/src/run.py --log /var/log/bits/bits.log --config /etc/bits/config.yaml
 
 [Install]
 WantedBy=multi-user.target" > /etc/systemd/system/bits.service'
