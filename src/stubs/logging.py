@@ -12,7 +12,5 @@ def bits_logger(log_file_abspath:str="/var/log/bits/bits.log", verbosity:object=
         filemode="a",
         format="[%(asctime)s.%(msecs)03d] (%(name)s|%(levelname)s) %(message)s",
         datefmt='%Y-%m-%d %H:%M:%S')
-        
-    logger = logging.getLogger("bits")
     
-    return logger
+    return logging.getLogger("bits")
