@@ -1,5 +1,7 @@
 # Bits
 Humanoid Discord bot with too much power and a bit of an attitude...
+=======
+Humanoid Discord bot with too much power and a bit of an attitude...
 
 ![SCYCA Logo](.rsrc/Logo-Full-black-JPG.jpg)
 
