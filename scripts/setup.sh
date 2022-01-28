@@ -44,7 +44,7 @@ if [ "$CONT" = "y" ]; then
     set -x #trace to stdout
     sudo mkdir -p /etc/bits
     sudo touch /etc/bits/config.yaml
-    sudo chmod -R 755 /etc/bits
+    sudo chmod -R 600 /etc/bits
     sudo chown bits:bits /etc/bits/config.yaml
     set +x #reset tracing
 fi
@@ -57,7 +57,7 @@ if [ "$CONT" = "y" ]; then
     set -x #trace to stdout
     sudo mkdir -p /var/log/bits
     sudo chown bits:bits -R /var/log/bits
-    sudo chmod -R 700 /var/log/bits
+    sudo chmod -R 600 /var/log/bits
     set +x #reset tracing
 fi
 

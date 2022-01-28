@@ -13,8 +13,7 @@ class Configuration:
         self.data = {
             "log_level": None,
             "bot_settings": {
-                "discord_token": None,
-                "a_new_key": None
+                "discord_token": None
             }
         }
 
