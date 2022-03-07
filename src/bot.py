@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from botalive import botalive
+from botwhoami import botwhoami
 
 class Bot:
     def __init__(self, logging:object, config:object) -> None:
@@ -9,7 +10,7 @@ class Bot:
         
         #Configure bot
             #TODO set from configuration, any intents we might need. Can also set contexts in configuration and do it that way
-        intents = discord.Intents.default() 
+        intents = discord.Intents(messages=True, guilds=True, members=True) 
             #TODO set description from configuration
         description = '''A placeholder bot description.'''
 
@@ -22,6 +23,10 @@ class Bot:
         @self.bot.command() #TODO Break this out into a class or some other logical structure not in Bot.init
         async def alive(ctx):
            await botalive(ctx, self)
+        
+        @self.bot.command()
+        async def whoami(ctx):
+            await botwhoami(ctx, self)
 
         #Initialize
         self.__start_bot()
