@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from botalive import botalive
 
 class Bot:
     def __init__(self, logging:object, config:object) -> None:
@@ -20,16 +21,7 @@ class Bot:
 
         @self.bot.command() #TODO Break this out into a class or some other logical structure not in Bot.init
         async def alive(ctx):
-            """Check daemon status from server."""
-            self.log.info(f"[{ctx.author.id}:{ctx.author}] executed command '{ctx.invoked_with}'")
-            
-            
-            #TODO This should be decorated as admin only
-
-            #Send response
-            message = "Still alive but I'm barely breathing... dun dun DUN DUN..."
-            await ctx.send(message)
-            self.log.info(f"Sever replied with '{message}'")
+           await botalive(ctx, self)
 
         #Initialize
         self.__start_bot()
