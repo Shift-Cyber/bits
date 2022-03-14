@@ -24,7 +24,7 @@ class Bot:
         @self.bot.event
         async def on_ready():
             self.log.info(f'Logged in as {self.bot.user} (ID: {self.bot.user.id})')
-            print("Bot has been started")
+            print('Bot has been started')
         
         @self.bot.command()
         async def load(ctx, extension, self):

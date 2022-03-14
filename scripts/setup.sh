@@ -72,6 +72,7 @@ if [ "$CONT" = "y" ]; then
     sudo mkdir -p /opt/bits
     sudo cp -r $SCRIPT_DIR/* /opt/bits
     sudo chown bits:bits -R /opt/bits
+    sudo chmod -R 700 /opt/bits
     set +x #reset tracing
 fi
 
