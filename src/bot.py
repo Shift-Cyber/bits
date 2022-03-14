@@ -1,9 +1,12 @@
 import discord
+import os
 from discord.ext import commands
-from botalive import botalive
-from botwhoami import botwhoami
+
+
+#from botalive import botalive
+#from botwhoami import botwhoami
 #from botregister import botregister
-from isadmin import isadmin
+#from isadmin import isadmin
 
 class Bot:
     def __init__(self, logging:object, config:object) -> None:
@@ -21,27 +24,19 @@ class Bot:
         @self.bot.event
         async def on_ready():
             self.log.info(f'Logged in as {self.bot.user} (ID: {self.bot.user.id})')
-
-        @self.bot.command() #TODO Break this out into a class or some other logical structure not in Bot.init
-        async def alive(ctx):
-           await botalive(ctx, self)
+            print("Bot has been started")
         
         @self.bot.command()
-        async def adminalive(ctx):
-            adminVerified = await isadmin(ctx, self)
-            if adminVerified == "Yes":
-                await botalive(ctx, self)
-            else:
-                await ctx.send("No Soup For You")
+        async def load(ctx, extension, self):
+            self.bot.load_extension(f'cogs.{extension}')
 
         @self.bot.command()
-        async def whoami(ctx):
-            await botwhoami(ctx, self)
+        async def unload(ctx, extension, self):
+            self.bot.unload_extension(f'cogs.{extension}')
 
-        @self.bot.command()
-        async def register(ctx):
-            await botregister(ctx, self)
-
+        for filename in os.listdir('./cogs'):
+            if filename.endswith('.py'):
+                self.bot.load_extension(f'cogs.{filename[:-3]}')
 
         #Initialize
         self.__start_bot()
