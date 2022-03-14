@@ -34,6 +34,8 @@ class Bot:
         async def unload(ctx, extension, self):
             self.bot.unload_extension(f'cogs.{extension}')
 
+        os.chdir(r"/opt/bits/src")
+
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 self.bot.load_extension(f'cogs.{filename[:-3]}')
