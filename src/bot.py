@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 from botalive import botalive
 from botwhoami import botwhoami
+#from botregister import botregister
+from isadmin import isadmin
 
 class Bot:
     def __init__(self, logging:object, config:object) -> None:
@@ -25,8 +27,21 @@ class Bot:
            await botalive(ctx, self)
         
         @self.bot.command()
+        async def adminalive(ctx):
+            adminVerified = await isadmin(ctx, self)
+            if adminVerified == "Yes":
+                await botalive(ctx, self)
+            else:
+                await ctx.send("No Soup For You")
+
+        @self.bot.command()
         async def whoami(ctx):
             await botwhoami(ctx, self)
+
+        @self.bot.command()
+        async def register(ctx):
+            await botregister(ctx, self)
+
 
         #Initialize
         self.__start_bot()
