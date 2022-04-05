@@ -24,10 +24,16 @@ class Bot:
 
         self.bot = commands.Bot(command_prefix='!', description=description, intents=intents)
        
+
         def is_admin(ctx):
-            commander = ctx.guild.get_member(ctx.author.id)
-            self.log.debug(f"[{commander} role is {commander.top_role}]")
-            return commander.top_role.id == adminCheck
+            adminUser = ctx.guild.get_member(ctx.author.id)
+            self.log.debug(f"[{adminUser} role is {adminUser.top_role}]")
+            return adminUser.top_role.id == adminCheck
+
+        def is_mod(ctx):
+            modUser = ctx.guild.get_member(ctx.author.id)
+            self.log.debug(f"[{modUser} role is {modUser.top_role}]")
+            return modUser.tope_role.id == modCheck
 
         #Logs the bot starting up
         @self.bot.event
@@ -38,12 +44,14 @@ class Bot:
         #Verifies bot is online
         @self.bot.command()
         async def alive(ctx):
+            self.log.info(f"ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await alive_command(ctx, self)
             return
 
         #Returns Username and Top Role
         @self.bot.command()
         async def whoami(ctx):
+            self.log.info(f"ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await whoami_command(ctx, self)
             return
 
@@ -51,6 +59,7 @@ class Bot:
         @commands.check(is_admin) 
         @self.bot.command()
         async def admin_debug(ctx):
+            self.log.info(f"ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await admin_debug_command(ctx, self)
             return
 
