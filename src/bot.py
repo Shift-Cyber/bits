@@ -7,6 +7,7 @@ sys.path.insert(0, "/opt/bits/src/commands")
 from alive_command import alive_command
 from whoami_command import whoami_command
 from admin_debug_command import admin_debug_command
+from setup_category_command import setup_category
 
 class Bot:
     def __init__(self, logging:object, config:object) -> None:
@@ -44,14 +45,14 @@ class Bot:
         #Verifies bot is online
         @self.bot.command()
         async def alive(ctx):
-            self.log.info(f"ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
+            self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await alive_command(ctx, self)
             return
 
         #Returns Username and Top Role
         @self.bot.command()
         async def whoami(ctx):
-            self.log.info(f"ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
+            self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await whoami_command(ctx, self)
             return
 
@@ -59,10 +60,16 @@ class Bot:
         @commands.check(is_admin) 
         @self.bot.command()
         async def admin_debug(ctx):
-            self.log.info(f"ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
+            self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await admin_debug_command(ctx, self)
             return
-
+        
+        @self.bot.command()
+        async def register_team(ctx):
+            self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
+            await setup_category(ctx, self)
+            return        
+        
         #Initialize
         self.__start_bot()
 
