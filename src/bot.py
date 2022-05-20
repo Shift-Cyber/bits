@@ -6,6 +6,7 @@ class Bot:
         self.log = logging
         self.config = config
         
+        
         #Configure bot
             #TODO set from configuration, any intents we might need. Can also set contexts in configuration and do it that way
         intents = discord.Intents.default() 
@@ -30,6 +31,22 @@ class Bot:
             message = "Still alive but I'm barely breathing... dun dun DUN DUN..."
             await ctx.send(message)
             self.log.info(f"Sever replied with '{message}'")
+
+
+        bWord = ["fuck", "Fuck", "duck"]
+
+        vioResp = "Stop! You have violated the law. Pay the court a fine or serve your sentence. Your message is now forfeit."
+
+        @self.bot.event
+        async def on_message(message):
+
+            msg = message.content
+  
+            if message.content.startswith('$hello_there'):
+                await message.channel.send("General Kenobi")
+
+            if any(word in msg for word in bWord):
+                await message.channel.send(vioResp)
 
         #Initialize
         self.__start_bot()
