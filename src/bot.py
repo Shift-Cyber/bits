@@ -6,11 +6,9 @@ from discord.ext import commands
 sys.path.insert(0, "/opt/bits/src/commands")
 from alive_command import alive_command
 from whoami_command import whoami_command
-from admin_debug_command import admin_debug_command
 from register_command import register_command
 from whoareyou_command import whoareyou_command
 from support_command import support_command
-from wrench_command import wrench_command
 
 class Bot:
     def __init__(self, logging:object, config:object) -> None:
@@ -40,26 +38,6 @@ class Bot:
             guild = self.bot.get_guild(self.config.data['bot_settings']['guildID'])
             print('Guild has been set to: ' + str(guild.name) + ' | ' + str(guild.id))
 
-        ###TODO Work this event into only responding to users interacting with the !support command.
-        ###Bot currently responds to all messages that reactions are added to
-        @self.bot.event
-        async def on_reaction_add(reaction, user):
-            if user != self.bot.user:
-                channel = reaction.message.channel
-                if str(reaction.emoji) == '🔧':
-                    await channel.send('Thats a Wrench')
-                    await wrench_command(self, user, channel, guild)
-                elif str(reaction.emoji) == '💡':
-                    await channel.send('Thats a Bulb')
-                else:
-                    await channel.send('You added an unrecognized reaction')
-
-        @self.bot.event
-        async def on_reation_remove(reaction, user):
-            channel = reaction.message.channel
-            await self.bot.send_message(channel, '{} has removed {} from the message: {}'.format(user.name, reaction.emoji, reaction.message.content))
-        
-        
         #Verifies bot is online
         @commands.has_role(int(adminCheck))
         @self.bot.command()
@@ -88,7 +66,7 @@ class Bot:
         async def support(ctx):
             self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             if ctx.author != self.bot.user:
-                await support_command(ctx, self)
+                await support_command(ctx, self, guild)
             return
 
         #Jokes Below This Line
