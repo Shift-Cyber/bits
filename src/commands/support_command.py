@@ -13,22 +13,19 @@ async def support_command(ctx, self, guild):
     for emoji in emojis:
         await helpChat.add_reaction(emoji)
     
-    helpChannel = helpChat.channel
-    
     def reactionCheck(reaction, user):
-        return user == customer and reaction.message.channel == helpChannel
+        return user == customer and reaction.message.channel == helpChat.channel
     
     ###TODO Add a timeout
     async def reactionReply():
         reaction, user = await self.bot.wait_for('reaction_add', check=reactionCheck)
         
         if reaction.emoji == emojis[0]: #Wrench
-            await wrench_command(self, user, helpChannel, guild)
+            await wrench_command(self, user, helpChat.channel, guild)
         elif reaction.emoji == emojis[1]: #Bulb
-            await helpChannel.send('Thats a Bulb')
-        
+            await helpChat.channel.send('Thats a Bulb')
         else:
-            await helpChannel.send('Unrecognized Reaction. Please try again')
+            await helpChat.channel.send('Unrecognized Reaction. Please try again')
         await reactionReply()
         
     await reactionReply()
