@@ -9,15 +9,17 @@ from whoami_command import whoami_command
 from register_command import register_command
 from whoareyou_command import whoareyou_command
 from support_command import support_command
+from userinfo_command import userinfo_command
 
 class Bot:
     def __init__(self, logging:object, config:object) -> None:
         self.log = logging
         self.config = config
-        modCheck = self.config.data['bot_settings']['modRoleID']
-        adminCheck = self.config.data['bot_settings']['adminRoleId']
-        compCheck = self.config.data['bot_settings']['competitorRoleID']
-
+        mod_check = self.config.data['bot_settings']['modRoleID']
+        admin_check = self.config.data['bot_settings']['adminRoleId']
+        comp_check = self.config.data['bot_settings']['competitorRoleID']
+        newb_check = self.config.data['bot_settings']['newbRoleID']
+       
         os.chdir(r"/opt/bits/")
 
         #Configure bot
@@ -27,7 +29,6 @@ class Bot:
         description = '''A placeholder bot description.'''
 
         self.bot = commands.Bot(command_prefix='!', description=description, intents=intents)
-       
 
         #Logs the bot starting up
         @self.bot.event
@@ -36,10 +37,20 @@ class Bot:
             print('Bot has been started')
             global guild
             guild = self.bot.get_guild(self.config.data['bot_settings']['guildID'])
-            print('Guild has been set to: ' + str(guild.name) + ' | ' + str(guild.id))
+            self.log.info('Guild has been set to: ' + str(guild.name) + ' | ' + str(guild.id))
+        
+        #Member_check is used for commands run outside of Guild channels (ie DMs). Built-in has_role only works in Guild channels
+        def member_check(ctx):
+            member = guild.get_member(ctx.author.id)
+            if member == "None":
+                self.log.info(f'{ctx.author.name}:{ctx.author.id} exectued {ctx.invoked_with} and is NOT a member')
+                return False
+            else:
+                newb_role = guild.get_role(newb_check)
+                return member.top_role != newb_role
 
         #Verifies bot is online
-        @commands.has_role(int(adminCheck))
+        @commands.has_role(int(admin_check))
         @self.bot.command()
         async def alive(ctx):
             self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
@@ -47,31 +58,38 @@ class Bot:
             return
 
         #Returns Username and Top Role
-        @commands.has_any_role(int(modCheck), int(adminCheck))
+        @commands.has_any_role(int(mod_check), int(admin_check))
         @self.bot.command()
         async def whoami(ctx):
             self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await whoami_command(ctx, guild)
             return
-   
-        @self.bot.command()
-        async def register(ctx):
-            self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
-            await register_command(ctx, self)
-            return 
         
-        ###TODO has_any_role doesn't work with DMs. Need to find a new check
-        #@commands.has_any_role(int(compCheck), int(modCheck), int(adminCheck))
+        @commands.has_any_role(int(mod_check), int(admin_check))
         @self.bot.command()
+        async def userinfo(ctx, user):
+            self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
+            await userinfo_command(ctx, self, user, guild)
+            return
+
+
+        #@self.bot.command()
+        #async def register(ctx):
+         #   self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
+         #   await register_command(ctx, self, guild)
+         #   return 
+        
+        @self.bot.command()
+        @commands.check(member_check)
         async def support(ctx):
             self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
-            if ctx.author != self.bot.user:
-                await support_command(ctx, self, guild)
+            await support_command(ctx, self, guild)
             return
 
         #Jokes Below This Line
         @self.bot.command(hidden=True)
         async def whoareyou(ctx):
+            self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await whoareyou_command(ctx, self)
             return
          
