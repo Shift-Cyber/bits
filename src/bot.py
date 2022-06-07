@@ -5,8 +5,7 @@ class Bot:
     def __init__(self, logging:object, config:object) -> None:
         self.log = logging
         self.config = config
-        
-        
+
         #Configure bot
             #TODO set from configuration, any intents we might need. Can also set contexts in configuration and do it that way
         intents = discord.Intents.default() 
@@ -14,6 +13,12 @@ class Bot:
         description = '''A placeholder bot description.'''
 
         self.bot = commands.Bot(command_prefix='!', description=description, intents=intents)
+
+        bw = open('/opt/bits/src/bWords.txt')
+        bwlines = bw.readlines()
+        bWords = []
+        for i in bwlines:
+            bWords.append(i[:-1])
 
         @self.bot.event
         async def on_ready():
@@ -32,21 +37,19 @@ class Bot:
             await ctx.send(message)
             self.log.info(f"Sever replied with '{message}'")
 
-
-        bWord = ["fuck", "Fuck", "duck"]
-
-        vioResp = "Stop! You have violated the law. Pay the court a fine or serve your sentence. Your message is now forfeit."
-
         @self.bot.event
         async def on_message(message):
+            if message.author == self.bot.user:
+                return
 
-            msg = message.content
-  
-            if message.content.startswith('$hello_there'):
-                await message.channel.send("General Kenobi")
+            msg = message.content.lower().replace(" ","")
 
-            if any(word in msg for word in bWord):
+
+            if any(word in msg for word in bWords):
+                vioResp = "Hault {}, you have violated the law. you dirty slut. keep swearing and I will kill you, you little shit".format(message.author)
                 await message.channel.send(vioResp)
+                await message.delete()
+		
 
         #Initialize
         self.__start_bot()
