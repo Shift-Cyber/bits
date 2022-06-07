@@ -30,6 +30,12 @@ class Bot:
 
         self.bot = commands.Bot(command_prefix='!', description=description, intents=intents)
 
+        bw = open('/opt/bits/src/bWords.txt')
+        bwlines = bw.readlines()
+        bWords = []
+        for i in bwlines:
+            bWords.append(i[:-1])
+
         #Logs the bot starting up
         @self.bot.event
         async def on_ready():
@@ -38,7 +44,19 @@ class Bot:
             global guild
             guild = self.bot.get_guild(self.config.data['bot_settings']['guildID'])
             self.log.info('Guild has been set to: ' + str(guild.name) + ' | ' + str(guild.id))
-        
+         
+        @self.bot.event
+        async def on_message(message):
+            if message.author == self.bot.user:
+                return
+
+            msg = message.content.lower().replace(" ","")
+
+            if any(word in msg for word in bWords):
+                vioResp = "Hault {}, you have violated the law. you dirty slut. keep swearing and I will kill you, you little shit".format(message.author)
+                await message.channel.send(vioResp)
+                await message.delete()        
+                
         #Member_check is used for commands run outside of Guild channels (ie DMs). Built-in has_role only works in Guild channels
         def member_check(ctx):
             member = guild.get_member(ctx.author.id)
@@ -72,7 +90,6 @@ class Bot:
             await userinfo_command(ctx, self, user, guild)
             return
 
-
         #@self.bot.command()
         #async def register(ctx):
          #   self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
@@ -92,10 +109,9 @@ class Bot:
             self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await whoareyou_command(ctx, self)
             return
-         
+        
         #Initialize
         self.__start_bot()
-
 
     def __start_bot(self) -> None:
         token = self.config.data['bot_settings']['discord_token']
