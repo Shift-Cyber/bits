@@ -32,9 +32,9 @@ class Bot:
 
         bw = open('/opt/bits/src/bWords.txt')
         bwlines = bw.readlines()
-        bWords = []
+        b_words = []
         for i in bwlines:
-            bWords.append(i[:-1])
+            b_words.append(i[:-1])
 
         #Logs the bot starting up
         @self.bot.event
@@ -52,10 +52,11 @@ class Bot:
 
             msg = message.content.lower().replace(" ","")
 
-            if any(word in msg for word in bWords):
-                vioResp = "Hault {}, you have violated the law. you dirty slut. keep swearing and I will kill you, you little shit".format(message.author)
-                await message.channel.send(vioResp)
-                await message.delete()        
+            if any(word in msg for word in b_words):
+                vio_resp = "Hault {}, you have violated the law. you dirty slut. keep swearing and I will kill you, you little shit".format(message.author)
+                await message.channel.send(vio_resp)
+                await message.delete()
+            await self.bot.process_commands(message)
                 
         #Member_check is used for commands run outside of Guild channels (ie DMs). Built-in has_role only works in Guild channels
         def member_check(ctx):
