@@ -19,8 +19,9 @@ class Bot:
         admin_check = self.config.data['bot_settings']['adminRoleId']
         comp_check = self.config.data['bot_settings']['competitorRoleID']
         newb_check = self.config.data['bot_settings']['newbRoleID']
-       
-        os.chdir(r"/opt/bits/")
+        
+        #Probably not needed, written by a noob or something
+        #os.chdir(r"/opt/bits/")
 
         #Configure bot
             #TODO set from configuration, any intents we might need. Can also set contexts in configuration and do it that way
@@ -29,7 +30,8 @@ class Bot:
         description = '''A placeholder bot description.'''
 
         self.bot = commands.Bot(command_prefix='!', description=description, intents=intents)
-
+        
+        ###TODO Move filepath/name to config file. Ensure file is opened with only read permissions and is closed proper
         bw = open('/opt/bits/src/bWords.txt')
         bwlines = bw.readlines()
         b_words = []
@@ -43,7 +45,7 @@ class Bot:
             print('Bot has been started')
             global guild
             guild = self.bot.get_guild(self.config.data['bot_settings']['guildID'])
-            self.log.info('Guild has been set to: ' + str(guild.name) + ' | ' + str(guild.id))
+            self.log.info(f'Guild has been set to: {guild.name} | {guild.id}')
          
         @self.bot.event
         async def on_message(message):
@@ -54,7 +56,7 @@ class Bot:
 
             if any(word in msg for word in b_words):
                 vio_resp = "Hault {}, you have violated the law. you dirty slut. keep swearing and I will kill you, you little shit".format(message.author)
-                await message.channel.send(vio_resp)
+                await message.author.send(vio_resp)
                 await message.delete()
             await self.bot.process_commands(message)
                 
@@ -68,6 +70,7 @@ class Bot:
                 newb_role = guild.get_role(newb_check)
                 return member.top_role != newb_role
 
+        
         #Verifies bot is online
         @commands.has_role(int(admin_check))
         @self.bot.command()
