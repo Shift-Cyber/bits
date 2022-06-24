@@ -10,13 +10,14 @@ from register_command import register_command
 from whoareyou_command import whoareyou_command
 from support_command import support_command
 from userinfo_command import userinfo_command
+from comp_class import Comp
 
 class Bot:
     def __init__(self, logging:object, config:object) -> None:
         self.log = logging
         self.config = config
         mod_check = self.config.data['bot_settings']['modRoleID']
-        admin_check = self.config.data['bot_settings']['adminRoleId']
+        admin_check = self.config.data['bot_settings']['adminRoleID']
         comp_check = self.config.data['bot_settings']['competitorRoleID']
         newb_check = self.config.data['bot_settings']['newbRoleID']
         
@@ -51,13 +52,19 @@ class Bot:
         async def on_message(message):
             if message.author == self.bot.user:
                 return
-
-            msg = message.content.lower().replace(" ","")
-
-            if any(word in msg for word in b_words):
-                vio_resp = "Hault {}, you have violated the law. you dirty slut. keep swearing and I will kill you, you little shit".format(message.author)
-                await message.author.send(vio_resp)
-                await message.delete()
+            else:
+                await swear_event(self, ctx, message):
+            
+            #msg = message.content.lower().replace(" ","")
+             
+            #if any(word in msg for word in b_words):
+             #   vio_resp = "Hault {}, you have violated the law. you dirty slut. keep swearing and I will kill you, you little shit".format(message.author)
+            #    await message.author.send(vio_resp)
+           #     await message.delete()
+          #      
+         #       filthy_swearer = Comp(message.author)
+        #        filthy_swearer.swear(message)
+                
             await self.bot.process_commands(message)
                 
         #Member_check is used for commands run outside of Guild channels (ie DMs). Built-in has_role only works in Guild channels
@@ -69,7 +76,6 @@ class Bot:
             else:
                 newb_role = guild.get_role(newb_check)
                 return member.top_role != newb_role
-
         
         #Verifies bot is online
         @commands.has_role(int(admin_check))
@@ -93,13 +99,12 @@ class Bot:
             self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await userinfo_command(ctx, self, user, guild)
             return
-
-        #@self.bot.command()
-        #async def register(ctx):
-         #   self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
-         #   await register_command(ctx, self, guild)
-         #   return 
         
+        #@commands.has_any_role(int(mod_check), int(admin_check))
+        #@self.bot.command()
+        #async def resetswear():
+            #self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
+
         @self.bot.command()
         @commands.check(member_check)
         async def support(ctx):

@@ -14,7 +14,6 @@ class Ticket:
         for emoji in emojis:
             await self.ticket_thread.add_reaction(emoji)
 
-    ###TODO Methods don't seem to work with this Class and the Bot
     async def message_user(self):
         print('Called message_user')
         await self.customer.send('The moderator has sent you this message')
