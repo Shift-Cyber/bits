@@ -20,7 +20,7 @@ class Bot:
         comp_check = self.config.data['bot_settings']['competitorRoleID']
         newb_check = self.config.data['bot_settings']['newbRoleID']
        
-        os.chdir(r"/opt/bits/")
+        #os.chdir(r"/opt/bits/")
 
         #Configure bot
             #TODO set from configuration, any intents we might need. Can also set contexts in configuration and do it that way
@@ -29,7 +29,8 @@ class Bot:
         description = '''A placeholder bot description.'''
 
         self.bot = commands.Bot(command_prefix='!', description=description, intents=intents)
-
+        
+        ###TODO Fix file opening and ensure it gets closed
         bw = open('/opt/bits/src/bWords.txt')
         bwlines = bw.readlines()
         b_words = []
@@ -43,7 +44,7 @@ class Bot:
             print('Bot has been started')
             global guild
             guild = self.bot.get_guild(self.config.data['bot_settings']['guildID'])
-            self.log.info('Guild has been set to: ' + str(guild.name) + ' | ' + str(guild.id))
+            self.log.info(f'Guild has been set to: {guild.name} | {guild.id}')
          
         @self.bot.event
         async def on_message(message):
@@ -53,8 +54,8 @@ class Bot:
             msg = message.content.lower().replace(" ","")
 
             if any(word in msg for word in b_words):
-                vio_resp = "Hault {}, you have violated the law. you dirty slut. keep swearing and I will kill you, you little shit".format(message.author)
-                await message.channel.send(vio_resp)
+                vio_resp = "stahp it, you're so bad"#.format(message.author)
+                await message.author.send(vio_resp)
                 await message.delete()
             await self.bot.process_commands(message)
                 
@@ -91,12 +92,6 @@ class Bot:
             await userinfo_command(ctx, self, user, guild)
             return
 
-        #@self.bot.command()
-        #async def register(ctx):
-         #   self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
-         #   await register_command(ctx, self, guild)
-         #   return 
-        
         @self.bot.command()
         @commands.check(member_check)
         async def support(ctx):

@@ -18,15 +18,18 @@ async def ticket_command(self, customer, channel, guild, ticket_channel):
     def reaction_check(reaction, user):
         return reaction.message == customer_ticket.ticket_thread
         
+    emojis = {'red_square':'\U0001F7E5','yellow_square':'\U0001F7E8','green_square':'\U0001F7E9'}
+
     async def reaction_reply():
         reaction, user = await self.bot.wait_for('reaction_add',check=reaction_check)    
-        if reaction.emoji == '\U0001F7E5': #Red Square
-            await customer.send(str('The moderator has sent you this message'))
+        if reaction.emoji == emojis['red_square']:
+            #await customer.send(str('The moderator has sent you this message'))
+            customer_ticket.message_user()
             print (str('Red Square'))
-        elif reaction.emoji == '\U0001F7E8': #Yellow Square
-            customer_ticket.message_mod
+        elif reaction.emoji == emojis['yellow_square']:
+            customer_ticket.message_mod()
             print(str('Yellow Square'))
-        elif reaction.emoji == '\U0001F7E9': #Green Square
+        elif reaction.emoji == emojis['green_square']:
             print(str('Green Square'))
         else:
             pass

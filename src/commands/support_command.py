@@ -6,7 +6,7 @@ async def support_command(ctx, self, guild):
     help_message = f'@{customer.name}, How can I help you? React to this message to receive assistance:\n🔧: Wrench Stuff\n💡: Bulb Stuff'
     
     # U0001F527 = Wrench | U0001F4A1 = Bulb
-    emojis = ['\U0001F527','\U0001F4A1']
+    emojis = {'wrench':'\U0001F527','bulb':'\U0001F4A1'}
 
     help_chat = await customer.send(content=help_message)
     for emoji in emojis:
@@ -21,10 +21,10 @@ async def support_command(ctx, self, guild):
     ###TODO Add a timeout | Create Ticket numbering system
     async def reaction_reply():
         reaction, user = await self.bot.wait_for('reaction_add', check=reaction_check)
-        if reaction.emoji == emojis[0]: #Wrench
+        if reaction.emoji == emojis['wrench']: 
             ticket_channel = wrench_channel
             await ticket_command(self, user, help_chat.channel, guild, ticket_channel)
-        elif reaction.emoji == emojis[1]: #Bulb
+        elif reaction.emoji == emojis['bulb']:
             ticket_channel = bulb_channel
             await ticket_command(self, user, help_chat.channel, guild, ticket_channel)
         else:
