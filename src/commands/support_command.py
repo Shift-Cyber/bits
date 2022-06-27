@@ -3,17 +3,15 @@ from ticket_command import ticket_command
 async def support_command(ctx, self, guild):
     customer = ctx.author
     
-<<<<<<< HEAD
     # U0001F527 = Wrench | U0001F4A1 = Bulb
     emojis = {'wrench':'\U0001F527','bulb':'\U0001F4A1'}
-=======
+    
     wrench_text:str = 'Something isn\'t working right or you think something is broken'
     bulb_text:str = 'You can\'t log in to an account or you have a permissions error'
 
     help_message = f'@{customer.name}, How can I help you? React to this message to receive assistance:\n🔧: {wrench_text}\n💡: {bulb_text}'
     
     emojis = {'wrench':'\U0001F527','bulb':'\U0001F4A1']
->>>>>>> 2c475432fa6b03f2d4ad8d885afa34a3adf99522
 
     help_chat = await customer.send(content=help_message)
     for emoji in emojis:
@@ -29,17 +27,10 @@ async def support_command(ctx, self, guild):
     async def reaction_reply():
         reaction, user = await self.bot.wait_for('reaction_add', check=reaction_check)
         if reaction.emoji == emojis['wrench']: 
-<<<<<<< HEAD
-            ticket_channel = wrench_channel
-            await ticket_command(self, user, help_chat.channel, guild, ticket_channel)
-        elif reaction.emoji == emojis['bulb']:
-            ticket_channel = bulb_channel
-=======
             ticket_channel = broken_channel
             await ticket_command(self, user, help_chat.channel, guild, ticket_channel)
         elif reaction.emoji == emojis['bulb']: 
             ticket_channel = account_channel
->>>>>>> 2c475432fa6b03f2d4ad8d885afa34a3adf99522
             await ticket_command(self, user, help_chat.channel, guild, ticket_channel)
         else:
             await help_chat.channel.send('Unrecognized Reaction. Please try again')
