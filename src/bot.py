@@ -10,7 +10,7 @@ from register_command import register_command
 from whoareyou_command import whoareyou_command
 from support_command import support_command
 from userinfo_command import userinfo_command
-from comp_class import Comp
+from swear_event import swear_event
 
 class Bot:
     def __init__(self, logging:object, config:object) -> None:
@@ -51,7 +51,7 @@ class Bot:
             if message.author == self.bot.user:
                 return
             else:
-                await swear_event(self, ctx, message):              
+                await swear_event(self, message, b_words)              
             await self.bot.process_commands(message)
                 
         #Member_check is used for commands run outside of Guild channels (ie DMs). Built-in has_role only works in Guild channels

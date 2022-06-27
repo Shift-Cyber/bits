@@ -11,10 +11,10 @@ async def support_command(ctx, self, guild):
 
     help_message = f'@{customer.name}, How can I help you? React to this message to receive assistance:\n🔧: {wrench_text}\n💡: {bulb_text}'
     
-    emojis = {'wrench':'\U0001F527','bulb':'\U0001F4A1']
+    emojis = {'wrench':'\U0001F527','bulb':'\U0001F4A1'}
 
     help_chat = await customer.send(content=help_message)
-    for emoji in emojis:
+    for emoji in emojis.values():
         await help_chat.add_reaction(emoji)
     
     broken_channel = guild.get_channel(self.config.data['bot_settings']['brokenChannelID'])

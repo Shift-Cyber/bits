@@ -27,13 +27,11 @@ async def ticket_command(self, customer, channel, guild, ticket_channel):
         reaction, user = await self.bot.wait_for('reaction_add',check=reaction_check)    
         if reaction.emoji == emojis['red_square']:
             #await customer.send(str('The moderator has sent you this message'))
-            customer_ticket.message_user()
-            print (str('Red Square'))
+            await customer_ticket.message_user()
         elif reaction.emoji == emojis['yellow_square']:
-            customer_ticket.message_mod()
-            print(str('Yellow Square'))
+            await customer_ticket.message_mod()
         elif reaction.emoji == emojis['green_square']:
-            print(str('Green Square'))
+            pass
         else:
             pass
         await reaction_reply()
