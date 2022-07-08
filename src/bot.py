@@ -10,17 +10,16 @@ from register_command import register_command
 from whoareyou_command import whoareyou_command
 from support_command import support_command
 from userinfo_command import userinfo_command
+from swear_event import swear_event
 
 class Bot:
     def __init__(self, logging:object, config:object) -> None:
         self.log = logging
         self.config = config
         mod_check = self.config.data['bot_settings']['modRoleID']
-        admin_check = self.config.data['bot_settings']['adminRoleId']
+        admin_check = self.config.data['bot_settings']['adminRoleID']
         comp_check = self.config.data['bot_settings']['competitorRoleID']
         newb_check = self.config.data['bot_settings']['newbRoleID']
-       
-        #os.chdir(r"/opt/bits/")
 
         #Configure bot
             #TODO set from configuration, any intents we might need. Can also set contexts in configuration and do it that way
@@ -31,11 +30,14 @@ class Bot:
         self.bot = commands.Bot(command_prefix='!', description=description, intents=intents)
         
         ###TODO Fix file opening and ensure it gets closed
-        bw = open('/opt/bits/src/bWords.txt')
-        bwlines = bw.readlines()
-        b_words = []
-        for i in bwlines:
-            b_words.append(i[:-1])
+        ###TODO Move filepath/name to config file. Ensure file is opened with only read permissions and is closed proper
+
+        bw_path:str = self.config.data['bot_settings']['bwPath']
+        with open(bw_path) as bw:
+            bwlines:str = bw.readlines()
+            b_words = []
+            for i in bwlines:
+                b_words.append(i[:-1])
 
         #Logs the bot starting up
         @self.bot.event
@@ -48,15 +50,11 @@ class Bot:
          
         @self.bot.event
         async def on_message(message):
+            msg = message.content.lower().replace(" ","")
             if message.author == self.bot.user:
                 return
-
-            msg = message.content.lower().replace(" ","")
-
-            if any(word in msg for word in b_words):
-                vio_resp = "stahp it, you're so bad"#.format(message.author)
-                await message.author.send(vio_resp)
-                await message.delete()
+            elif any(word in msg for word in b_words):
+                await swear_event(self, message)              
             await self.bot.process_commands(message)
                 
         #Member_check is used for commands run outside of Guild channels (ie DMs). Built-in has_role only works in Guild channels
@@ -68,7 +66,7 @@ class Bot:
             else:
                 newb_role = guild.get_role(newb_check)
                 return member.top_role != newb_role
-
+        
         #Verifies bot is online
         @commands.has_role(int(admin_check))
         @self.bot.command()
@@ -91,7 +89,7 @@ class Bot:
             self.log.info(f"{ctx.author.id}:{ctx.author} executed command '{ctx.invoked_with}'")
             await userinfo_command(ctx, self, user, guild)
             return
-
+        
         @self.bot.command()
         @commands.check(member_check)
         async def support(ctx):
