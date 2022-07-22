@@ -23,7 +23,7 @@ class Bot:
 
         #Configure bot
             #TODO set from configuration, any intents we might need. Can also set contexts in configuration and do it that way
-        intents = discord.Intents(messages=True, guilds=True, members=True, reactions=True) 
+        intents = discord.Intents(messages=True, message_content=True, guilds=True, members=True, reactions=True) 
             #TODO set description from configuration
         description = '''A placeholder bot description.'''
 
@@ -44,13 +44,14 @@ class Bot:
         async def on_ready():
             self.log.info(f'Logged in as {self.bot.user} (ID: {self.bot.user.id})')
             print('Bot has been started')
+            print(discord.version_info,discord.__version__)
             global guild
             guild = self.bot.get_guild(self.config.data['bot_settings']['guildID'])
             self.log.info(f'Guild has been set to: {guild.name} | {guild.id}')
          
         @self.bot.event
         async def on_message(message):
-            msg = message.content.lower().replace(" ","")
+            msg = message.content.lower()
             if message.author == self.bot.user:
                 return
             elif any(word in msg for word in b_words):
