@@ -22,8 +22,8 @@ read -p "Install Python3 requirements? [Y/n] " CONT
 printf ${RESET}
 if [ "$CONT" = "y" ]; then
     sudo apt update
-    sudo apt install python3-pip
-    pip3 install -r ../requirements.txt
+    sudo apt install python3-pip    
+    sudo pip3 install -r ~/Bits/requirements.txt
 fi
 
 #Setup service account
