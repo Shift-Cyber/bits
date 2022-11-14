@@ -52,7 +52,7 @@ class Registration(commands.Cog):
                 user = self.database.lookup_user_email(token_record.email)
 
                 if token_record:
-                    if not int(token_record.issued_epoch) >= (int(time.time()) + TOKEN_EXP_SEC):
+                    if int(token_record.issued_epoch) + int(TOKEN_EXP_SEC) >= int(time.time()):
                         
                         # add member role to caller
                         member = ctx.message.author
