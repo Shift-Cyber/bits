@@ -1,5 +1,4 @@
-pyyaml
-argparse
-logging
-pyyaml
-discord
+discord==2.1.0
+discord.py==2.1.0
+PyNaCl==1.5.0
+mysql-connector-python==8.0.31
