@@ -57,3 +57,20 @@ log_level:              - Log verbosity, https://docs.python.org/3/howto/logging
         
 TOKEN = os.environ.get("DISCORD_TOKEN", None)
 VERSION = os.environ.get("VERSION", None)
+
+
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", None)
+
+
+
+
+# registration process
+
+1. request token by using 
+
+!register get-token <email>
+
+2. register by consuming token within 10 mins
+
+!register use-token <token>
+
