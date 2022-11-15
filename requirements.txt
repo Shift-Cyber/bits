@@ -1,5 +1,0 @@
-pyyaml
-argparse
-logging
-pyyaml
-discord
