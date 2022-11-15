@@ -50,17 +50,15 @@ log_level:              - Log verbosity, https://docs.python.org/3/howto/logging
 
 # ENVIRONMENT
 
-       self.host          = os.environ.get("DB_HOST", None)
-        self.username      = os.environ.get("DB_USER", None) or "root"
-        self.password      = os.environ.get("DB_PASS", None)
-        self.database_name = os.environ.get("DB_NAME", None) or "hack_a_bit"
+DB_HOST
+DB_PASS
+DB_USER default root
+DB_NAME default hack_a_bit
         
-TOKEN = os.environ.get("DISCORD_TOKEN", None)
-VERSION = os.environ.get("VERSION", None)
-
-
-SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", None)
-
+DISCORD_TOKEN
+VERSION
+SENDGRID_API_KEY
+TOKEN_EXP_SEC
 
 
 

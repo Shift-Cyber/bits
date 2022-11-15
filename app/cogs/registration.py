@@ -53,16 +53,29 @@ class Registration(commands.Cog):
 
                 if token_record:
                     if int(token_record.issued_epoch) + int(TOKEN_EXP_SEC) >= int(time.time()):
-                        
-                        # add member role to caller
-                        member = ctx.message.author
-                        await member.add_roles(get(ctx.guild.roles, name="Member"), atomic=True)
 
+                        # get guild and member role based on ID so the bot isnt reliant on ctx
+                        guild = self.bot.get_guild(int(os.environ.get("GUILD_ID")))
+                        member_role = guild.get_role(int(os.environ.get("MEMBER_ROLE")))
+
+                        # retreive member based on id
+                        member_id = ctx.message.author.id
+                        member = guild.get_member(member_id)
+
+                        # add role based on prior context
+                        await member.add_roles(member_role, atomic=True)
+
+                        
                         # if registered, add competitor role to caller
                         if bool(user.registered) == True:
-                            member = ctx.message.author
-                            await member.add_roles(get(ctx.guild.roles, name="Competitor"), atomic=True)
+                            
+                            # get competitor role based on ID so the bot isnt reliant on ctx
+                            competitor_role = guild.get_role(int(os.environ.get("COMPETITOR_ROLE")))
 
+                            # add role based on prior context
+                            await member.add_roles(competitor_role, atomic=True)
+
+                        # notify user
                         await ctx.send(f"""Registered, {user.email} your roles have been granted!""")
 
                     else:
