@@ -38,22 +38,22 @@ To setup the bot locally you will need to set the approperiate environment varia
 
 
 ## GAR Authentication and Build Process
-1. Authenticate to docker
+1. Authenticate to docker<br>
 ```gcloud auth login```
 
-2. Configure auth for docker (config file)
+2. Configure auth for docker (config file)<br>
 ```gcloud auth configure-docker us-central1-docker.pkg.dev```
 
-3. Verify authentication by pulling your secret
+3. Verify authentication by pulling your secret<br>
 ```echo "https://us-central1-docker.pkg.dev" | docker-credential-gcr get```
 
-4. Build the image locally
+4. Build the image locally<br>
 ```docker build . -t bits```
 
-5. Tag the local image
+5. Tag the local image<br>
 ```docker tag bits us-central1-docker.pkg.dev/hab-sandbox-playhouse/bits/bits:<version>```
 
-6. Push it to the artifacts repository
+6. Push it to the artifacts repository<br>
 ```docker push us-central1-docker.pkg.dev/hab-sandbox-playhouse/bits/bits:<version>```
 
 
