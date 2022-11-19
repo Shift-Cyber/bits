@@ -3,7 +3,7 @@
 Humanoid Discord bot with too much power and a bit of an attitude...
 
 ## Overview
-This is the main development repository for the Bits discord bot. Bits is the Discord bot for Shift Cyber's Hack-a-Bit Capture the Flag (CTF) competition. Please submit pulls to add additional features if you have cool ideas. We are always accepting new volunteers to help with open-source maintenance. If you have found a vulnerability, please consider responsible disclosure via our main contact contact@shiftcyber.com. **Do not submit pull requests related to like vulnerabilities in the software suite.** We will credit you on the repository if you have a hand in development or security. Thanks for checking out the Bot, hope to see you participating in a competition in the future and/or volunteering to help us inspire the next generation of security experts.
+This is the main development repository for the Bits discord bot. Bits is the Discord bot for Shift Cyber's Hack-a-Bit Capture the Flag (CTF) competition. Please submit pulls to add additional features if you have cool ideas. We are always accepting new volunteers to help with open-source maintenance. If you have found a vulnerability, please consider responsible disclosure via our main contact contact@shiftcyber.com. **Do not submit pull requests related to vulnerabilities.** We will credit you on the repository if you have a hand in development or security. Thanks for checking out the Bot, hope to see you participating in a competition in the future and/or volunteering to help us inspire the next generation of security experts.
 
 
 ## Development
