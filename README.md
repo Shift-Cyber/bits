@@ -6,7 +6,10 @@ Humanoid Discord bot with too much power and a bit of an attitude...
 This is the main development repository for the Bits discord bot. Bits is the Discord bot for Shift Cyber's Hack-a-Bit Capture the Flag (CTF) competition. Please submit pulls to add additional features if you have cool ideas. We are always accepting new volunteers to help with open-source maintenance. If you have found a vulnerability, please consider responsible disclosure via our main contact contact@shiftcyber.com. **Do not submit pull requests related to like vulnerabilities in the software suite.** We will credit you on the repository if you have a hand in development or security. Thanks for checking out the Bot, hope to see you participating in a competition in the future and/or volunteering to help us inspire the next generation of security experts.
 
 
-## Contributors and Contact
+## Development and Core Contributors
+### Branch Protection
+By default, the production branch of bits is protected and only allows administrators to pull down. Release branches are also protected but anyone may submit a pull request to be reviewed by administrators. Administrators must approve a pull before it can be merged into a feature branch. Once requirements for a production release of bit are met, the branch is merged down to production and the old feature branches should be purged. Release branches are named release/\* and development branches should be named \<name\>/\<brief-feature-description\>. If they are not, an administrator may ask you to rename your feature branch for CI/CD clarity.
+
 ### [Darian Arnold](discord://discordapp.com/users/277500700496363521)
 Darian Arnold is a lead developer and the infrastructure management supervisor during Hack a Bit Competition. He has had a major hand in development of the bot and can take any questions related to bot setup, execution and development. Specifically he has done substnatial work on bot commands and therefor is the primary contact for that aspect of the bot.
 
