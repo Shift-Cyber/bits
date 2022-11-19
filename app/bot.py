@@ -12,20 +12,26 @@ import google.cloud.logging
 from cogs.registration import Registration
 
 # inherit environment
-TOKEN = os.environ.get("DISCORD_TOKEN", None)
-VERSION = os.environ.get("VERSION", None)
+TOKEN     = os.environ.get("DISCORD_TOKEN", None)
+VERSION   = os.environ.get("VERSION", None)
+LOG_LOCAL = os.environ.get("LOG_LOCAL", )
 
 # configure logging to GCP
-google.cloud.logging.Client().setup_logging()
+if int(LOG_LOCAL):
+    pass
+else:
+    google.cloud.logging.Client().setup_logging()
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s.%(msecs)03d (%(levelname)s | %(filename)s:%(lineno)d) - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
-)
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s.%(msecs)03d (%(levelname)s | %(filename)s:%(lineno)d) - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
+
 
 # instantiate bot
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix='!')
+
 
 # setup initial actions on bot ready
 @bot.event
@@ -37,6 +43,7 @@ async def on_ready():
 
     # add registration options
     await bot.add_cog(Registration(bot))
+
 
 # start the bot with the provided access token
 bot.run(TOKEN)
