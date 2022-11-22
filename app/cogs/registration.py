@@ -11,7 +11,7 @@ from connectors.database import Database
 from connectors.email import EmailClient
 
 # environment setup
-TOKEN_EXP_SEC = os.environ.get("TOKEN_EXP_SEC", None) or 600
+TOKEN_EXP_SEC = os.environ.get("TOKEN_EXP_SEC", 600)
 
 
 class Registration(commands.Cog):

@@ -1,7 +1,9 @@
-import mysql.connector
+# python native imports
 import logging
 import os
 
+# third party imports
+import mysql.connector
 
 # local imports
 from structures.user import User
@@ -10,10 +12,10 @@ from structures.token_record import TokenRecord
 
 class Database:
     def __init__(self):
-        self.host          = os.environ.get("DB_HOST", None)
-        self.username      = os.environ.get("DB_USER", None) or "root"
-        self.password      = os.environ.get("DB_PASS", None)
-        self.database_name = os.environ.get("DB_NAME", None) or "hack_a_bit"
+        self.host          = os.environ.get("DB_HOST")
+        self.username      = os.environ.get("DB_USER", "root")
+        self.password      = os.environ.get("DB_PASS")
+        self.database_name = os.environ.get("DB_NAME", "hack_a_bit")
 
         self.__connect__()
 
@@ -28,8 +30,17 @@ class Database:
             logging.info(f"connected to MySQL server, version '{self.connector.get_server_info()}'")
 
 
+    def __verify_connector__(self) -> None:
+        if not self.connector.is_connected(): 
+            logging.warning("connector restarted, the server must have gone too long without a connection or something else broke")
+            self.__connect__()
+
+
     def lookup_user_email(self, email:str) -> User:
-        try:
+        try:    
+            # ensure the connector is connected
+            self.__verify_connector__()
+            
             # determine all registered user's uids
             cursor = self.connector.cursor(prepared=True)
             query_user_by_id = """SELECT * FROM users WHERE email=%s"""
@@ -50,6 +61,9 @@ class Database:
 
     def save_token(self, token:str, email:str, issued_epoch:str) -> None:
         try:
+            # ensure the connector is connected
+            self.__verify_connector__()
+
             cursor = self.connector.cursor(prepared=True)
 
             query_save_token = """INSERT INTO email_tokens
@@ -72,6 +86,9 @@ class Database:
 
     def get_token_record(self, token:str) -> tuple:
         try:
+            # ensure the connector is connected
+            self.__verify_connector__()
+
             cursor = self.connector.cursor(prepared=True)
             query_token = """SELECT * FROM email_tokens WHERE token=%s"""
 

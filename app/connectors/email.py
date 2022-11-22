@@ -12,7 +12,7 @@ from structures.user import User
 
 
 # environmnet setup
-SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", None)
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 
 
 class EmailClient:

@@ -4,29 +4,30 @@ import sys
 import logging
 
 # third party imports
-import discord
-from discord.ext import commands
 import google.cloud.logging
+import discord
+
+from discord.ext import commands
 
 # local imports
 from cogs.registration import Registration
 
+
 # inherit environment
-TOKEN     = os.environ.get("DISCORD_TOKEN", None)
-VERSION   = os.environ.get("VERSION", None)
-LOG_LOCAL = os.environ.get("LOG_LOCAL", )
+TOKEN     = os.environ.get("DISCORD_TOKEN")
+VERSION   = os.environ.get("VERSION")
+LOG_LOCAL = os.environ.get("LOG_LOCAL", 0)
 
-# configure logging to GCP
+
+# logging configuration, local or remote
 if int(LOG_LOCAL):
-    pass
-else:
-    google.cloud.logging.Client().setup_logging()
-
     logging.basicConfig(
-        level=logging.DEBUG,
+        stream=sys.stdout,
+        level=logging.INFO,
         format='%(asctime)s.%(msecs)03d (%(levelname)s | %(filename)s:%(lineno)d) - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S',
+        datefmt='%Y-%m-%d %H:%M:%S'
     )
+else: google.cloud.logging.Client().setup_logging()
 
 
 # instantiate bot
