@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`last_name` varchar(255) NOT NULL,
 	`email` varchar(255) NOT NULL,
 	`registered` bool NOT NULL,
+    `discord_id` varchar(255),
 	PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-

@@ -106,3 +106,21 @@ class Database:
 
         except Exception as e:
             logging.error("Error while connecting to MySQL", e)
+
+
+    def set_discord_association_uid(self, uid:str, discord_id:str) -> None:
+        try:
+            # ensure the connector is connected
+            self.__verify_connector__()
+
+            cursor = self.connector.cursor(prepared=True)
+            query_set_association = """UPDATE users SET discord_id = %s WHERE user_id = %s"""
+
+            cursor.execute(query_set_association, (discord_id, uid))
+            self.connector.commit()
+
+            logging.info(f"Updated user [{uid}] with Discord member ID [{discord_id}]")
+            cursor.close()
+
+        except Exception as e:
+            logging.error("Error while connecting to MySQL", e)
