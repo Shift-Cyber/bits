@@ -27,12 +27,12 @@ class EmailClient:
             html_content=f"<html><p>Welcome to the Hack a Bit Discord, here's your token: </p><p><b>{token}</b></p><br><p>Now you need to use the register command to sync your accounts by running...</p><p>!register use-token {token}</p></html>")
 
         try:
+            logging.info(f"sending registration code to: {user.email}")
+            
             sendgrid_client = SendGridAPIClient(SENDGRID_API_KEY)
             response = sendgrid_client.send(message)
 
-            logging.info(response.status_code)
-            logging.info(response.body)
-            logging.info(response.headers)
+            logging.info(f"got response from mail API [{response.status_code}]")
 
         except Exception as e:
             logging.error(e.message)

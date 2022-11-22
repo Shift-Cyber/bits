@@ -27,11 +27,13 @@ if int(LOG_LOCAL):
         format='%(asctime)s.%(msecs)03d (%(levelname)s | %(filename)s:%(lineno)d) - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
+    logging.info("logging set to stdout rather than GCP")
 else: google.cloud.logging.Client().setup_logging()
 
 
 # instantiate bot
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix='!')
+logging.info("bits has been instantiated with intents and a command prefix")
 
 
 # setup initial actions on bot ready
@@ -41,10 +43,13 @@ async def on_ready():
 
     # inform version in presence
     await bot.change_presence( activity=discord.Activity(type=discord.ActivityType.watching, name=VERSION) )
+    logging.info(f"bits presence set to [{VERSION}]")
 
     # add registration options
     await bot.add_cog(Registration(bot))
+    logging.info("associated registration cog")
 
 
 # start the bot with the provided access token
-bot.run(TOKEN)
+logging.info("starting bot")
+if not bot.run(TOKEN): logging.critical("failed to start Bits")

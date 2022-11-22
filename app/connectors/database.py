@@ -53,6 +53,7 @@ class Database:
             if user_tuple:
                 return User(*user_tuple)
             else:
+                logging.info(f"couldn't find user: {email}")
                 return None
 
         except Exception as e:
@@ -100,42 +101,8 @@ class Database:
             if token_tuple:
                 return TokenRecord(*token_tuple)
             else:
+                logging.info(f"couldn't find token: {token}")
                 return None
 
         except Exception as e:
             logging.error("Error while connecting to MySQL", e)
-
-
-
-"""
-# connect to GCP database for bits user context
-    bits_connector = mysql.connector.connect(
-        host     = os.environ.get("BITS_DB_HOST", None),
-        port     = os.environ.get("BITS_DB_PORT", None) or 3306,
-        user     = os.environ.get("BITS_DB_USER", None),
-        password = os.environ.get("BITS_DB_PASS", None),
-        database = os.environ.get('BITS_DB', None) or "hack_a_bit"
-    )
-
-    if not bits_connector.is_connected(): logging.error("Error connecting to bits database") and exit(-1)
-
-    #format query
-    cursor = bits_connector.cursor(prepared=True)
-    query_create_user = ""INSERT INTO users
-                           (user_id, first_name, last_name, email, registered)
-                           VALUES (%s,%s,%s,%s,%s)""
-
-
-
-
-    #execute query
-    cursor.execute(query_create_user,
-                    (user.uid,
-                     user.first_name,
-                     user.last_name,
-                     user.email,
-                     user.registered))
-    bits_connector.commit()
-    cursor.close()
-    bits_connector.close()
-"""

@@ -2,6 +2,7 @@
 import secrets
 import time
 import os
+import logging
 
 # third party imports
 from discord.utils import get
@@ -25,6 +26,8 @@ class Registration(commands.Cog):
         time.sleep(5)
         await ctx.send(f"""Send me the register command to get started...```!register ```""")
 
+        logging.info("sent initial contact message to user")
+
 
     @commands.command(name="register")
     async def register(self, ctx, *args):
@@ -46,6 +49,7 @@ class Registration(commands.Cog):
                     EmailClient().send_registration_code(user, token)
 
                 await ctx.send(f'Request received, if the account exists you will receive an email with the authorization token and further instructions.')
+                logging.info(f"sent token [{token}] to user [{user.email}] and messaged notification to user")
 
             elif args[0] == "use-token":
                 token_record = self.database.get_token_record(args[1])
@@ -64,6 +68,7 @@ class Registration(commands.Cog):
 
                         # add role based on prior context
                         await member.add_roles(member_role, atomic=True)
+                        logging.info(f"user [{user.email}] granted member role")
 
                         
                         # if registered, add competitor role to caller
@@ -74,12 +79,15 @@ class Registration(commands.Cog):
 
                             # add role based on prior context
                             await member.add_roles(competitor_role, atomic=True)
+                            logging.info(f"user [{user.email}] granted competitor role")
 
                         # notify user
                         await ctx.send(f"""Registered, {user.email} your roles have been granted!""")
+                        logging.info(f"user [{user.email}] registered with token [{args[0]}]")
 
                     else:
                         await ctx.send(f"""Attempted registration with an expired token, please generate a new token and try again.""")
+                        logging.info(f"user [{user.email}] attempted registration with expired token [{args[0]}]")
 
                 else: await ctx.send(f'Registration failed, invalid token.')
         
