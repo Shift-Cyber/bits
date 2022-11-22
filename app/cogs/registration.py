@@ -82,7 +82,7 @@ class Registration(commands.Cog):
                             logging.info(f"user [{user.email}] granted competitor role")
 
                         # notify user
-                        await ctx.send(f"""Registered, {user.email} your roles have been granted!""")
+                        await ctx.send(f"""Registered {user.email}, your roles have been granted!""")
                         logging.info(f"user [{user.email}] registered with token [{args[0]}]")
 
                     else:

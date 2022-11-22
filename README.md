@@ -71,6 +71,7 @@ Retrieve these secrets from the OnePassword engineering vault: Bits Bot (Environ
 | DISCORD_TOKEN        | Bot's discord access token            | Yes      |            |
 | VERSION              | Version to present in the server      | Yes      |            |
 | SENDGRID_API_KEY     | Sendgrid API access key               | Yes      |            |
+| SENDGRID_REG         | Sendgride registration email template | Yes      |            |
 | TOKEN_EXP_SEC        | Token expiration window in seconds    | Yes      |            |
 | DB_USER              | Database user                         | No       | root       |
 | DB_NAME              | Database name                         | No       | hack_a_bit |
