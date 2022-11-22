@@ -52,4 +52,4 @@ async def on_ready():
 
 # start the bot with the provided access token
 logging.info("starting bot")
-if not bot.run(TOKEN): logging.critical("failed to start Bits")
+if not bot.run(TOKEN): logging.critical("failed to start Bits or shutdown/reset")
