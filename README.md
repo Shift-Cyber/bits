@@ -3,14 +3,18 @@
 Humanoid Discord bot with too much power and a bit of an attitude...
 
 ## Overview
-This is the main development repository for the Bits discord bot. Bits is the Discord bot for Shift Cyber's Hack-a-Bit Capture the Flag (CTF) competition. Please submit pulls to add additional features if you have cool ideas. We are always accepting new volunteers to help with open-source maintenance. If you have found a vulnerability, please consider responsible disclosure via our main contact contact@shiftcyber.com. **Do not submit pull requests related to like vulnerabilities in the software suite.** We will credit you on the repository if you have a hand in development or security. Thanks for checking out the Bot, hope to see you participating in a competition in the future and/or volunteering to help us inspire the next generation of security experts.
+This is the main development repository for the Bits discord bot. Bits is the Discord bot for Shift Cyber's Hack-a-Bit Capture the Flag (CTF) competition. Please submit pulls to add additional features if you have cool ideas. We are always accepting new volunteers to help with open-source maintenance. If you have found a vulnerability, please consider responsible disclosure via our main contact contact@shiftcyber.com. **Do not submit pull requests related to vulnerabilities.** We will credit you on the repository if you have a hand in development or security. Thanks for checking out the Bot, hope to see you participating in a competition in the future and/or volunteering to help us inspire the next generation of security experts.
 
 
-## Contributors and Contact
-### [Darian Arnold](discord://discordapp.com/users/277500700496363521)
+## Development
+### Branch Protection
+By default, the production branch of bits is protected and only allows administrators to pull down. Release branches are also protected but anyone may submit a pull request to be reviewed by administrators. Administrators must approve a pull before it can be merged into a feature branch. Once requirements for a production release of bit are met, the branch is merged down to production and the old feature branches should be purged. Release branches are named release/\* and development branches should be named \<name\>/\<brief-feature-description\>. If they are not, an administrator may ask you to rename your feature branch for CI/CD clarity.
+
+### Core Contributors
+#### [Darian Arnold](discord://discordapp.com/users/277500700496363521)
 Darian Arnold is a lead developer and the infrastructure management supervisor during Hack a Bit Competition. He has had a major hand in development of the bot and can take any questions related to bot setup, execution and development. Specifically he has done substnatial work on bot commands and therefor is the primary contact for that aspect of the bot.
 
-### [Nate Singer](discord://discordapp.com/users/523958300396748810)
+#### [Nate Singer](discord://discordapp.com/users/523958300396748810)
 Nate Singer is the founder of Shift Cyber and is the primary point of contact for this bot. He is resposible for most of the staging code and the framework for the bot. Therefor if there are questions related to environment or complxities in that arean, he should be the primary point of contact.
 
 
@@ -60,13 +64,15 @@ To setup the bot locally you will need to set the approperiate environment varia
 ## Environment Variables
 Retrieve these secrets from the OnePassword engineering vault: Bits Bot (Environment Settings)
 
-| Environment Variable | Description                        | Required | Default    |
-| -------------------- | ---------------------------------- | -------- | ---------- |
-| DB_HOST              | Database host address              | Yes      |            |
-| DB_PASS              | Database password                  | Yes      |            |
-| DB_USER              | Database user                      | No       | root       |
-| DB_NAME              | Database name                      | No       | hack_a_bit |
-| DISCORD_TOKEN        | Bot's discord access token         | Yes      |            |
-| VERSION              | Version to present in the server   | Yes      |            |
-| SENDGRID_API_KEY     | Sendgrid API access key            | Yes      |            |
-| TOKEN_EXP_SEC        | Token expiration window in seconds | Yes      |            |
+| Environment Variable | Description                           | Required | Default    |
+| -------------------- | ------------------------------------- | -------- | ---------- |
+| DB_HOST              | Database host address                 | Yes      |            |
+| DB_PASS              | Database password                     | Yes      |            |
+| DISCORD_TOKEN        | Bot's discord access token            | Yes      |            |
+| VERSION              | Version to present in the server      | Yes      |            |
+| SENDGRID_API_KEY     | Sendgrid API access key               | Yes      |            |
+| SENDGRID_REG         | Sendgride registration email template | Yes      |            |
+| TOKEN_EXP_SEC        | Token expiration window in seconds    | Yes      |            |
+| DB_USER              | Database user                         | No       | root       |
+| DB_NAME              | Database name                         | No       | hack_a_bit |
+| LOG_LOCAL            | Integer 1/0 specifing log destination | No       | 0          |

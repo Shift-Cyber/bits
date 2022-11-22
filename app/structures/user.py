@@ -9,3 +9,4 @@ class User:
     last_name: str
     email: str
     registered: bool
+    discord_id: str

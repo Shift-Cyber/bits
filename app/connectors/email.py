@@ -12,28 +12,29 @@ from structures.user import User
 
 
 # environmnet setup
-SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", None)
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+SENDGRID_REG     = os.environ.get("SENDGRID_REG")
 
 
 class EmailClient:
-    def __init__(self): pass
-        
-    
-    def send_registration_code(self, user:User, token:str):
-        
-        message = Mail(from_email="noreply@hackabit.com",
-            to_emails=user.email,
-            subject="Hack a Bit: Discord Registration Code",
-            html_content=f"<html><p>Welcome to the Hack a Bit Discord, here's your token: </p><p><b>{token}</b></p><br><p>Now you need to use the register command to sync your accounts by running...</p><p>!register use-token {token}</p></html>")
-
+    def send_registration_code(self, user:User, token:str):    
         try:
+            # set message addressing
+            message = Mail(from_email="noreply@hackabit.com",
+                to_emails=user.email,
+                subject="Hack a Bit: Discord Registration Code",
+            )
+            
+            # configure template settings
+            message.dynamic_template_data = { "registration-code": token }
+            message.template_id = SENDGRID_REG
+
+            logging.info(f"sending registration code to: {user.email}")
+            
             sendgrid_client = SendGridAPIClient(SENDGRID_API_KEY)
             response = sendgrid_client.send(message)
 
-            logging.info(response.status_code)
-            logging.info(response.body)
-            logging.info(response.headers)
+            logging.info(f"got response from the sendgrid API [{response.status_code}]")
 
         except Exception as e:
             logging.error(e.message)
-
