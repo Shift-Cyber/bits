@@ -16,7 +16,7 @@ from cogs.registration import Registration
 # inherit environment
 TOKEN     = os.environ.get("DISCORD_TOKEN")
 LOG_LOCAL = os.environ.get("LOG_LOCAL", 0)
-VERSION   = "v1.0.2"
+VERSION   = "v1.1.0"
 
 
 # logging configuration, local or remote
