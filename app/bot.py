@@ -4,28 +4,37 @@ import sys
 import logging
 
 # third party imports
-import discord
-from discord.ext import commands
 import google.cloud.logging
+import discord
+
+from discord.ext import commands
 
 # local imports
 from cogs.registration import Registration
 
+
 # inherit environment
-TOKEN = os.environ.get("DISCORD_TOKEN", None)
-VERSION = os.environ.get("VERSION", None)
+TOKEN     = os.environ.get("DISCORD_TOKEN")
+VERSION   = os.environ.get("VERSION")
+LOG_LOCAL = os.environ.get("LOG_LOCAL", 0)
 
-# configure logging to GCP
-google.cloud.logging.Client().setup_logging()
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s.%(msecs)03d (%(levelname)s | %(filename)s:%(lineno)d) - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
-)
+# logging configuration, local or remote
+if int(LOG_LOCAL):
+    logging.basicConfig(
+        stream=sys.stdout,
+        level=logging.INFO,
+        format='%(asctime)s.%(msecs)03d (%(levelname)s | %(filename)s:%(lineno)d) - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+    logging.info("logging set to stdout rather than GCP")
+else: google.cloud.logging.Client().setup_logging()
+
 
 # instantiate bot
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix='!')
+logging.info("bits has been instantiated with intents and a command prefix")
+
 
 # setup initial actions on bot ready
 @bot.event
@@ -34,9 +43,13 @@ async def on_ready():
 
     # inform version in presence
     await bot.change_presence( activity=discord.Activity(type=discord.ActivityType.watching, name=VERSION) )
+    logging.info(f"bits presence set to [{VERSION}]")
 
     # add registration options
     await bot.add_cog(Registration(bot))
+    logging.info("associated registration cog")
+
 
 # start the bot with the provided access token
-bot.run(TOKEN)
+logging.info("starting bot")
+if not bot.run(TOKEN): logging.critical("failed to start Bits or shutdown/reset")

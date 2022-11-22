@@ -2,6 +2,5 @@ use hack_a_bit;
 
 SELECT * from users;
 
-UPDATE users 
-SET first_name = 'Michael', last_name = 'Pelletier', email = 'michael@neonremedystudios.com', registered = '0'
-WHERE user_id = 1;
+# clear a user's discord id
+UPDATE users SET discord_id = null WHERE email = "user@shiftcyber.com";
