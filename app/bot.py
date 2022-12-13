@@ -13,7 +13,7 @@ from discord.ext import commands
 from cogs.registration import Registration
 
 # inherit environment
-TOKEN     = os.environ.get("DISCORD_TOKEN")
+TOKEN     = os.environ.get("DISCORD_TOKEN") or raise AssertionError
 LOG_LOCAL = os.environ.get("LOG_LOCAL", 0)
 VERSION   = "v1.0.2"
 
@@ -47,8 +47,8 @@ async def on_ready():
     try: 
         bot.guild = await bot.get_guild(os.environ.get("GUILD"))
         logging.info(f"Bot connected to {bot.guild}")
-    except:
-        logging.critical(f"Bot couldn't get guild; startup cancelled")
+    except AssertionError:
+        logging.critical(f"Bot couldn't get required boot context; aborting boot")
         print(f"Bot couldn't get guild; startup cancelled")
 
     # add registration options
