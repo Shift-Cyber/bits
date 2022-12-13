@@ -11,7 +11,7 @@ from discord.ext import commands
 
 # local imports
 from cogs.registration import Registration
-
+from cogs.moderation import Moderation
 
 # inherit environment
 TOKEN     = os.environ.get("DISCORD_TOKEN")
@@ -45,10 +45,18 @@ async def on_ready():
     await bot.change_presence( activity=discord.Activity(type=discord.ActivityType.watching, name=VERSION) )
     logging.info(f"bits presence set to [{VERSION}]")
 
+    try: 
+        bot.guild = await bot.get_guild(os.environ.get("GUILD"))
+        logging.info(f"Bot connected to {bot.guild}")
+    except:
+        logging.critical(f"Bot couldn't get guild; startup cancelled")
+        print(f"Bot couldn't get guild; startup cancelled")
+
     # add registration options
     await bot.add_cog(Registration(bot))
     logging.info("associated registration cog")
-
+    await bot.add_cog(Moderation(bot))
+    logging.info("associated moderation cog")
 
 # start the bot with the provided access token
 logging.info("starting bot")

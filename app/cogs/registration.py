@@ -22,9 +22,9 @@ class Registration(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, ctx):
-        await ctx.send(f"""Welcome to the Hack a Bit Discord, I'm Bits, your personal assistant!""")
+        await ctx.author.send(f"""Welcome to the Hack a Bit Discord, I'm Bits, your personal assistant!""")
         time.sleep(5)
-        await ctx.send(f"""Send me the register command to get started...```!register ```""")
+        await ctx.author.send(f"""Send me the register command to get started...```!register ```""")
 
         logging.info("sent initial contact message to user")
 
@@ -48,7 +48,7 @@ class Registration(commands.Cog):
 
                     EmailClient().send_registration_code(user, token)
 
-                await ctx.send(f'Request received, if the account exists you will receive an email with the authorization token and further instructions.')
+                await ctx.author.send(f'Request received, if the account exists you will receive an email with the authorization token and further instructions.')
                 logging.info(f"sent token [{token}] to user [{user.email}] and messaged notification to user")
 
             elif args[0] == "use-token":
@@ -69,7 +69,7 @@ class Registration(commands.Cog):
                         
                         # ensure user does not have an existing registration, notify and exit if they do
                         if (user.discord_id != None) and (user.discord_id != member_id):
-                            await ctx.send(f"""Your account {user.email}, was already registered with a different Discord account, please contact the @Staff to resolve!""")
+                            await ctx.author.send(f"""Your account {user.email}, was already registered with a different Discord account, please contact the @Staff to resolve!""")
                             logging.warning(f"user [{user.email}] attempted registration with a different account... was denied registration")
                         
                         # either the Discord ID in the db was None or it matched the member_id, continue on
@@ -94,14 +94,14 @@ class Registration(commands.Cog):
                                 logging.info(f"user [{user.email}] granted competitor role")
 
                             # notify user
-                            await ctx.send(f"""Registered {user.email}, your roles have been granted!""")
+                            await ctx.author.send(f"""Registered {user.email}, your roles have been granted!""")
                             logging.info(f"user [{user.email}] registered with token [{args[1]}]")
 
                     else:
-                        await ctx.send(f"""Attempted registration with an expired token, please generate a new token and try again.""")
+                        await ctx.author.send(f"""Attempted registration with an expired token, please generate a new token and try again.""")
                         logging.info(f"user [{user.email}] attempted registration with expired token [{args[0]}]")
 
-                else: await ctx.send(f'Registration failed, invalid token.')
+                else: await ctx.author.send(f'Registration failed, invalid token.')
         
         # not the right number of arguments
-        else: await ctx.send(f"""Start with this command to get a token in your email:\n```!register get-token <email-address>```Then send it back to me with this command to get assigned your roles:```!register use-token <access-token>```\n*Replace the triangle brackets '<email-address>' with yours.*""")
+        else: await ctx.author.send(f"""Start with this command to get a token in your email:\n```!register get-token <email-address>```Then send it back to me with this command to get assigned your roles:```!register use-token <access-token>```\n*Replace the triangle brackets '<email-address>' with yours.*""")
