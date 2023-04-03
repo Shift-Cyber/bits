@@ -13,9 +13,9 @@ from structures.token_record import TokenRecord
 class Database:
     def __init__(self):
         self.host          = os.environ.get("DB_HOST")
-        self.username      = os.environ.get("DB_USER", "root")
+        self.username      = os.environ.get("DB_USER", "bits")
         self.password      = os.environ.get("DB_PASS")
-        self.database_name = os.environ.get("DB_NAME", "hack_a_bit")
+        self.database_name = os.environ.get("DB_NAME", "bits")
 
         self.__connect__()
 
