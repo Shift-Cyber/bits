@@ -1,3 +1,5 @@
+""" Initialization point for the Bits Discord bot. """
+
 # python native imports
 import os
 import sys
@@ -39,6 +41,9 @@ logging.info("bits has been instantiated with intents and a command prefix")
 # setup initial actions on bot ready
 @bot.event
 async def on_ready():
+    """
+    asdf
+    """
     logging.info(f'{bot.user} has connected to Discord!')
 
     # inform version in presence
