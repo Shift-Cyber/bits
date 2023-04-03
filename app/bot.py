@@ -15,8 +15,8 @@ from cogs.registration import Registration
 
 # inherit environment
 TOKEN     = os.environ.get("DISCORD_TOKEN")
-VERSION   = os.environ.get("VERSION")
 LOG_LOCAL = os.environ.get("LOG_LOCAL", 0)
+VERSION   = "v1.0.2"
 
 
 # logging configuration, local or remote
@@ -53,3 +53,4 @@ async def on_ready():
 # start the bot with the provided access token
 logging.info("starting bot")
 if not bot.run(TOKEN): logging.critical("failed to start Bits or shutdown/reset")
+ 
