@@ -51,14 +51,18 @@ To setup the bot locally you will need to set the approperiate environment varia
 3. Verify authentication by pulling your secret<br>
 ```echo "https://us-central1-docker.pkg.dev" | docker-credential-gcr get```
 
+*You may get an error like "credentials not found in native keychain", this appears to be okay.*
+
 4. Build the image locally<br>
 ```docker build . -t bits```
 
 5. Tag the local image<br>
-```docker tag bits us-central1-docker.pkg.dev/hab-sandbox-playhouse/bits/bits:<version>```
+```docker tag bits us-central1-docker.pkg.dev/hackabit-sandbox-playhouse/bits/bits:<version>```
+
+*Ensure that your image tag conforms to the vX.X.X naming convention for versioning.*
 
 6. Push it to the artifacts repository<br>
-```docker push us-central1-docker.pkg.dev/hab-sandbox-playhouse/bits/bits:<version>```
+```docker push us-central1-docker.pkg.dev/hackabit-sandbox-playhouse/bits/bits:<version>```
 
 
 ## Environment Variables
