@@ -22,13 +22,9 @@ class Registration(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, ctx):
-        await ctx.send(f"""Welcome to the Hack a Bit Discord, I'm Bits, your personal assistant!""")
+        await member.send(f"""Welcome to the Hack a Bit Discord, I'm Bits, your personal assistant!""")
         time.sleep(5)
-        await ctx.send(f"""Send me the register command to get started...```!register ```""")
-
-        logging.info("sent initial contact message to user")
-
-
+        await ctx
     @commands.command(name="register")
     async def register(self, ctx, *args):
         if len(args) == 2:
@@ -64,8 +60,7 @@ class Registration(commands.Cog):
                         member_role = guild.get_role(int(os.environ.get("MEMBER_ROLE")))
 
                         # retreive member based on id
-                        member_id = ctx.message.author.id
-                        member = guild.get_member(member_id)
+                        member = guild.get_member(ctx.message.author.id)
                         
                         # ensure user does not have an existing registration, notify and exit if they do
                         if (user.discord_id != None) and (user.discord_id != member_id):

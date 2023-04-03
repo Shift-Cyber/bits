@@ -12,11 +12,10 @@ from discord.ext import commands
 # local imports
 from cogs.registration import Registration
 
-
 # inherit environment
-TOKEN     = os.environ.get("DISCORD_TOKEN")
-VERSION   = os.environ.get("VERSION")
+TOKEN     = os.environ.get("DISCORD_TOKEN") or raise AssertionError
 LOG_LOCAL = os.environ.get("LOG_LOCAL", 0)
+VERSION   = "v1.0.2"
 
 
 # logging configuration, local or remote
@@ -45,10 +44,18 @@ async def on_ready():
     await bot.change_presence( activity=discord.Activity(type=discord.ActivityType.watching, name=VERSION) )
     logging.info(f"bits presence set to [{VERSION}]")
 
+    try: 
+        bot.guild = await bot.get_guild(os.environ.get("GUILD"))
+        logging.info(f"Bot connected to {bot.guild}")
+    except AssertionError:
+        logging.critical(f"Bot couldn't get required boot context; aborting boot")
+        print(f"Bot couldn't get guild; startup cancelled")
+
     # add registration options
     await bot.add_cog(Registration(bot))
     logging.info("associated registration cog")
-
+    await bot.add_cog(Moderation(bot))
+    logging.info("associated moderation cog")
 
 # start the bot with the provided access token
 logging.info("starting bot")
